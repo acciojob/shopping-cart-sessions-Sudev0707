@@ -13,7 +13,7 @@ const clearCartBtn = document.getElementById("clear-cart-btn");
 let cartItems = [];
 
 function loadCartFromSession() {
-  const storedCart = sessionStorage.getItem("shoppingCart");
+  const storedCart = sessionStorage.getItem("cart");
   if (storedCart) {
     try {
       const parsed = JSON.parse(storedCart);
@@ -28,7 +28,7 @@ function loadCartFromSession() {
 }
 
 function saveCartToSession() {
-  sessionStorage.setItem("shoppingCart", JSON.stringify(cartItems));
+  sessionStorage.setItem("cart", JSON.stringify(cartItems));
 }
 
 function renderProducts() {
@@ -46,9 +46,7 @@ function renderCart() {
   cartList.innerHTML = "";
   cartItems.forEach((item, index) => {
     const li = document.createElement("li");
-    li.innerHTML = `${item.name} - $${item.price} <button class="remove-btn" data-index="${index}">Remove</button>`;
-    const removeBtn = li.querySelector(".remove-btn");
-    removeBtn.addEventListener("click", () => removeFromCart(index));
+    li.innerHTML = `${item.name} - $${item.price}`;
     cartList.appendChild(li);
   });
 }
@@ -60,12 +58,6 @@ function addToCart(productId) {
     saveCartToSession();
     renderCart();
   }
-}
-
-function removeFromCart(index) {
-  cartItems.splice(index, 1);
-  saveCartToSession();
-  renderCart();
 }
 
 function clearCart() {
